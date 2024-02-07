@@ -2,11 +2,11 @@ import React, { useEffect, useRef } from "react";
 import { Pressable, View, Dimensions, Animated, Easing } from "react-native";
 import { styles } from "./styles/FAB";
 
-export default function ({ menuOpen, setMenuOpen }: any) {
+export default function ({ menuOpen, setMenuOpen, widgetOpen, setColorPickerOpen }: any) {
   const anim = new Animated.Value(0);
   const startAnimation = () => {
     Animated.timing(anim, {
-      toValue: menuOpen ? Dimensions.get("window").width - 28 : 28,
+      toValue: menuOpen ? Dimensions.get("window").width - 30 : 30,
       duration: 150,
       useNativeDriver: false,
     }).start();
@@ -19,11 +19,17 @@ export default function ({ menuOpen, setMenuOpen }: any) {
       style={[
         styles.fab,
         {
-          right: menuOpen ? Dimensions.get("window").width - 28 : 28,
+          // right: menuOpen ? Dimensions.get("window").width - 28 : 28,
+          right: menuOpen
+            ? -80
+            : 30,
           transform: [{ rotateY: 180 * +menuOpen + "deg" }],
         },
       ]}
-      onPress={() => setMenuOpen((prev: boolean) => !prev)}
+      onPress={() => {
+        setColorPickerOpen(false);
+        setMenuOpen((prev: boolean) => !prev);
+      }}
       hitSlop={40}
     >
       <View

@@ -94,6 +94,9 @@ const pathSlice = createSlice({
         console.log({ ordered: state.orderedPathIDs });
       }
     },
+    revertRmv(state) {
+      console.log("revert rmv", { orderedPaths: state.orderedPathIDs, paths: state.paths });
+    },
     startNewSquare(state) {
       const lastBottomPaths = state.bottomPaths.slice(-1).pop();
       const tails = lastBottomPaths.map((obj) => {
@@ -114,5 +117,5 @@ const pathSlice = createSlice({
   },
 });
 
-export const { addPath, removePath, startNewSquare } = pathSlice.actions;
+export const { addPath, removePath, revertRmv, startNewSquare } = pathSlice.actions;
 export default pathSlice.reducer;

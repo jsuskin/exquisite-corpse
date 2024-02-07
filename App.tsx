@@ -6,14 +6,18 @@ import { store } from "./src/redux/store";
 import CanvasFrame from "./src/components/CanvasFrame";
 import FAB from "./src/components/Menu/FAB";
 import Menu from "./src/components/Menu";
+import Sidebar from "./src/components/Sidebar";
 import Preview from "./src/components/Preview";
 import { colors } from "./src/util/constants";
 import Loading from "./src/components/Loading";
 import { styles } from "./src/styles/global";
-// import Auth from './src/components/Auth';
+import ColorPicker from "./src/components/Menu/ColorPicker";
+import LineThicknessSlider from "./src/components/Menu/LineThicknessSlider";
+import SignUp from "./src/components/Auth/SignUp";
 
 export default function App() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [colorPickerOpen, setColorPickerOpen] = useState(false);
   const [drawColor, setDrawColor] = useState(colors[0]);
   const [strokeWidth, setStrokeWidth] = useState(1);
   const [curSquare, setCurSquare] = useState(0);
@@ -34,6 +38,7 @@ export default function App() {
   return (
     <Provider store={store}>
       <View style={styles.container}>
+        {/* <SignUp /> */}
         {showPreview ? (
           <Preview {...{ setShowPreview }} />
         ) : (
@@ -41,8 +46,33 @@ export default function App() {
             {drawColor.length ? <CanvasFrame {...canvasProps} /> : <Loading />}
           </>
         )}
-        <FAB {...{ menuOpen, setMenuOpen }} />
-        <Menu {...menuProps} />
+        <Sidebar
+          {...{
+            menuOpen,
+            setMenuOpen,
+            colorPickerOpen,
+            setColorPickerOpen,
+            drawBehind,
+            setDrawBehind,
+          }}
+        />
+        <FAB
+          {...{
+            menuOpen,
+            widgetOpen: colorPickerOpen,
+            setColorPickerOpen,
+            setMenuOpen,
+          }}
+        />
+        <ColorPicker
+          {...{ menuOpen, colorPickerOpen, drawColor, setDrawColor }}
+        />
+        {/* <LineThicknessSlider
+          trackStyle={{}}
+          handleStyle={{}}
+          panHandlers={{}}
+        /> */}
+        {/* <Menu {...menuProps} /> */}
       </View>
       <StatusBar style='auto' hidden={true} />
     </Provider>

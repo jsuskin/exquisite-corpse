@@ -70,7 +70,6 @@ export default function ({
       backAction
     );
 
-    // console.log(`menu is ${menuOpen ? "open" : "closed"}.\n\n\n`)
     return () => backHandler.remove();
   }, [menuOpen]);
 
