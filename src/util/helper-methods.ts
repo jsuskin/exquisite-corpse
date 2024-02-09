@@ -1,3 +1,5 @@
+/*** STYLE HELPERS ***/
+
 // PREVIEW COMPONENT
 
 export const getPreviewBorder = (index: number, last: number) =>

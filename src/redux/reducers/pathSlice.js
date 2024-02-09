@@ -70,6 +70,8 @@ const pathSlice = createSlice({
       );
     },
     removePath(state, action) {
+      if (!state.paths.flat().length) return;
+
       const lastPathsIdx = state.paths.length - 1;
 
       if (action.payload === "all") {
@@ -95,7 +97,17 @@ const pathSlice = createSlice({
       }
     },
     revertRmv(state) {
-      console.log("revert rmv", { orderedPaths: state.orderedPathIDs, paths: state.paths });
+      const lastUndoIdx = state.orderedPathIDs.findIndex(
+        ([status]) => status === "rmv"
+      );
+      if (lastUndoIdx < 0) return;
+      console.log("revert rmv", {
+        lastUndoIdx,
+        orderedPaths: state.orderedPathIDs,
+      });
+      const pathId = state.orderedPathIDs[lastUndoIdx][1];
+      // state.orderedPathIDs[lastUndoIdx] = ["add", pathId];
+      state.orderedPathIDs = [...state.orderedPathIDs.slice(0, lastUndoIdx), ["add", pathId], ...state.orderedPathIDs.slice(lastUndoIdx + 1)];
     },
     startNewSquare(state) {
       const lastBottomPaths = state.bottomPaths.slice(-1).pop();
@@ -117,5 +129,6 @@ const pathSlice = createSlice({
   },
 });
 
-export const { addPath, removePath, revertRmv, startNewSquare } = pathSlice.actions;
+export const { addPath, removePath, revertRmv, startNewSquare } =
+  pathSlice.actions;
 export default pathSlice.reducer;
