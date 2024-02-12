@@ -1,14 +1,14 @@
 import React, {useState} from 'react';
-import { styles } from '../styles/global';
+import { styles } from '../../styles/global';
 import { Dimensions, StyleSheet, Text, View } from "react-native";
-import CanvasFrame from "../components/CanvasFrame";
-import FAB from "../components/Menu/FAB";
-import Menu from "../components/Menu";
-import Sidebar from "../components/Sidebar";
-import Preview from "../components/Preview";
-import Loading from "../components/Loading";
-import ColorPicker from "../components/Menu/ColorPicker";
-import { colors } from "../util/constants";
+import CanvasFrame from "../../components/CanvasFrame";
+import FAB from "../../components/Menu/FAB";
+import Menu from "../../components/Menu";
+import Sidebar from "../../components/Sidebar";
+import Preview from "../../components/Preview";
+import Loading from "../../components/Loading";
+import ColorPicker from "../../components/Menu/ColorPicker";
+import { colors } from "../../util/constants";
 
 export default function() {
   const [menuOpen, setMenuOpen] = useState(false);

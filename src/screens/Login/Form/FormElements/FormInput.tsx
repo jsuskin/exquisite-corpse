@@ -2,8 +2,8 @@ import React from "react";
 import {
   TextInput
 } from "react-native";
-import { styles } from "../../../styles/login";
-import { FormInput } from '../../../types';
+import { styles } from "../../../../styles/login";
+import { FormInput } from '../../../../types';
 
 export default function ({ placeholder, value, setState, props = {} }: FormInput) {
   return (

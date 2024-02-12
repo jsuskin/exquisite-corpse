@@ -1,7 +1,7 @@
 import React from "react";
 import { Pressable, Text } from "react-native";
-import { styles } from "../../../styles/login";
-import { Button } from "../../../types";
+import { styles } from "../../../../styles/login";
+import { Button } from "../../../../types";
 export default function ({ handlePress, text }: Button) {
   return (
     <Pressable

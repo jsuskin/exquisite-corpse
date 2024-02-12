@@ -27,6 +27,7 @@ export default function ({
     if (action === "clear") dispatch(removePath("all"));
     if (action === "color") setColorPickerOpen((prev: boolean) => !prev);
     if (action === "draw under") setDrawBehind((prev: boolean) => !prev);
+    if(action === "user") {}
     console.log("pressed " + action);
   };
 
