@@ -1,26 +1,39 @@
-import React, { useState } from "react";
-import {
-  ActivityIndicator,
-  KeyboardAvoidingView,
-  View
-} from "react-native";
-import { styles } from "../../../styles/login";
-import { Button, FormInput } from "./FormElements";
-import { useDispatch, useSelector } from "react-redux";
+import { useNavigation } from "@react-navigation/native";
 import {
   createUserWithEmailAndPassword,
   getAuth,
   onAuthStateChanged,
   signInWithEmailAndPassword,
 } from "firebase/auth";
+import React, { useState } from "react";
+import { ActivityIndicator, KeyboardAvoidingView, View } from "react-native";
+import { useDispatch } from "react-redux";
 import FIREBASE_APP from "../../../lib/firebase/config";
+import { setUser } from "../../../redux/reducers/userSlice";
+import { styles } from "../../../styles/login";
+import { Button, FormInput } from "./FormElements";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { RootStackParamList } from "../../../types";
+
+type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
 const auth = getAuth(FIREBASE_APP);
 
-export default function ({navigation}: any) {
+export default function () {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+
+  const navigation: NavigationProp = useNavigation();
+
+  const dispatch = useDispatch();
+
+  const resetForm = () => {
+    setEmail("");
+    setPassword("");
+    setLoading(false);
+  }
+
   const signIn = async () => {
     setLoading(true);
     try {
@@ -31,6 +44,7 @@ export default function ({navigation}: any) {
       alert("Sign in failed: " + error.message);
     } finally {
       setLoading(false);
+      resetForm();
     }
   };
 
@@ -48,6 +62,7 @@ export default function ({navigation}: any) {
       alert("Sign up failed: " + error.message);
     } finally {
       setLoading(false);
+      resetForm();
     }
   };
 
@@ -56,9 +71,11 @@ export default function ({navigation}: any) {
       console.log({ user });
       const uid = user.uid;
       console.log({ uid });
+      dispatch(setUser({ email: user.email }));
       navigation.navigate("Canvas");
     } else {
       console.log("user signed out");
+      navigation.navigate("Login");
     }
   });
 

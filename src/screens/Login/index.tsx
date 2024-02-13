@@ -8,11 +8,11 @@ import { useDispatch, useSelector } from "react-redux";
 
 import Form from "./Form";
 
-export default function ({ navigation }: any) {
+export default function () {
   return (
     <View style={[styles.login, styles.flexCenter]}>
       <Text style={styles.header}>Login/Sign-Up</Text>
-      <Form {...{ navigation }} />
+      <Form />
     </View>
   );
 }

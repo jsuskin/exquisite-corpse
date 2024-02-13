@@ -1,4 +1,14 @@
-type BoolSetter = (prev: boolean) => void
+import { ParamListBase } from "@react-navigation/native";
+
+type BoolSetter = (prev: boolean) => void;
+
+// export type RootStackParamList = { Login: undefined; Profile: { userId: string }, Canvas: { canvasId: string } } & ParamListBase;
+export type RootStackParamList = {
+  Login: any;
+  Profile: any;
+  Canvas: any;
+  Settings: any;
+} & ParamListBase;
 
 export interface Sidebar {
   menuOpen: boolean;
@@ -18,5 +28,6 @@ export interface FormInput {
 
 export interface Button {
   handlePress: () => void;
-  text: "Sign In" | "Sign Up";
+  text: "Sign In" | "Sign Up" | "Save Changes";
+  disabled?: boolean;
 }
