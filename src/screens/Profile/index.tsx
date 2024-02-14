@@ -1,16 +1,38 @@
-import { Auth, getAuth, signOut } from "firebase/auth";
-import React from "react";
+import { Auth, getAuth, signOut, User } from "firebase/auth";
+import React, { useState, useEffect } from "react";
 import { Pressable, Text, View } from "react-native";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { setDisplayName } from "../../redux/reducers/userSlice";
 import FIREBASE_APP from "../../lib/firebase/config";
 import { styles } from "../../styles/profile";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faXmark, faGear } from "@fortawesome/free-solid-svg-icons";
+import { addDataToCollection } from "../../util/helper-methods/firebase";
+import { Button } from "../Login/Form/FormElements";
+import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { RootStackParamList } from "../../types";
+
+type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
 const auth = getAuth(FIREBASE_APP);
 
 export default function ({ navigation }: any) {
-  const { user } = useSelector((state: any) => state.user);
+  const user = auth.currentUser as User;
+  const dispatch = useDispatch();
+  const { displayName, email } = useSelector((state: any) => state.user);
+
+  const handleSetDisplayName: any = (displayName: string) => {
+    dispatch(setDisplayName(displayName));
+  };
+
+  const handleStartNewDrawing = () => {
+    addDataToCollection("drawings", { startedBy: displayName });
+  };
+
+  useEffect(() => {
+    handleSetDisplayName(user.displayName ? user.displayName : user.email);
+  }, [user.displayName]);
 
   async function signOutUser(auth: Auth) {
     try {
@@ -24,22 +46,27 @@ export default function ({ navigation }: any) {
 
   return (
     <View style={styles.profile}>
-      <Pressable
-        onPress={() => navigation.navigate("Canvas")}
-        style={styles.closeButton}
-      >
-        <FontAwesomeIcon icon={faXmark} color='#dadada' size={50} />
-      </Pressable>
-      <Text>{`Signed in as ${user.displayName ? user.displayName : user.email}`}</Text>
-      <Pressable
-        onPress={() => navigation.navigate("Settings")}
-        style={styles.profileSettingsButton}
-      >
-        <FontAwesomeIcon icon={faGear} color='#dadada' size={50} />
-      </Pressable>
-      <Pressable onPress={() => signOutUser(auth)} style={styles.signOutButton}>
-        <Text style={styles.signOutButtonText}>Sign Out</Text>
-      </Pressable>
+      <IconButton toRoute='Canvas' styleKey='closeButton' icon={faXmark} />
+      <Text>{`Signed in as ${displayName ? displayName : email}`}</Text>
+      <IconButton toRoute='Settings' styleKey='settingsButton' icon={faGear} />
+      <Button handlePress={() => signOutUser(auth)} text='Sign Out' />
+      <Button
+        handlePress={handleStartNewDrawing}
+        text='New Drawing'
+      />
     </View>
   );
 }
+
+const IconButton = ({ toRoute, styleKey, icon }: any) => {
+  const navigation: NavigationProp = useNavigation();
+
+  return (
+    <Pressable
+      onPress={() => navigation.navigate(toRoute)}
+      style={(styles as any)[styleKey]}
+    >
+      <FontAwesomeIcon icon={icon} color='#dadada' size={50} />
+    </Pressable>
+  );
+};

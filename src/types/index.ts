@@ -28,6 +28,6 @@ export interface FormInput {
 
 export interface Button {
   handlePress: () => void;
-  text: "Sign In" | "Sign Up" | "Save Changes";
+  text: "Sign In" | "Sign Up" | "Sign Out" | "Save Changes" | "New Drawing";
   disabled?: boolean;
 }

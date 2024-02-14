@@ -1,7 +1,7 @@
 import React from "react";
 import { Dimensions, View } from "react-native";
 import Svg from "react-native-svg";
-import { getPreviewBorder } from "../../../util/helper-methods";
+import { getPreviewBorder } from "../../../util/helper-methods/styling";
 import Path from "./Path";
 
 export default function ({

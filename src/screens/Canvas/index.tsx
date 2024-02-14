@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState,useEffect} from 'react';
 import { styles } from '../../styles/global';
 import { Dimensions, StyleSheet, Text, View } from "react-native";
 import CanvasFrame from "../../components/CanvasFrame";
@@ -20,6 +20,7 @@ export default function() {
   const [drawBehind, setDrawBehind] = useState(false);
 
   const canvasProps = { curSquare, drawColor, strokeWidth, drawBehind };
+
   return (
     <View style={styles.container}>
           {showPreview ? (
