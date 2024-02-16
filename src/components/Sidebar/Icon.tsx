@@ -11,12 +11,14 @@ type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
 export default function ({
   icon: [action, icon],
-  size = 35,
-  setMenuOpen = false,
+  size = 30,
+  setMenuOpen,
   setColorPickerOpen,
   colorPickerOpen,
   drawBehind,
   setDrawBehind,
+  showLineThicknessSlider,
+  setShowLineThicknessSlider,
 }: any) {
   const [color, setColor] = useState("#dadada");
   const [activeAction, setActiveAction] = useState("");
@@ -26,24 +28,39 @@ export default function ({
 
   if (action === "undo" || action === "redo") rotate = 90;
 
+  const handleHideSideBar = () => {
+    setMenuOpen(false);
+    setShowLineThicknessSlider(false);
+  };
+
+  const handleUndo = () => {
+    dispatch(removePath(-1));
+  };
+
   const handlePress = () => {
-    if (action === "close") setMenuOpen(false);
-    if (action === "undo") dispatch(removePath(-1));
+    if (action === "close") handleHideSideBar();
+    if (action === "undo") handleUndo();
     if (action === "redo") dispatch(revertRmv());
     if (action === "clear") dispatch(removePath("all"));
     if (action === "color") setColorPickerOpen((prev: boolean) => !prev);
     if (action === "draw under") setDrawBehind((prev: boolean) => !prev);
-    if(action === "user") navigation.navigate("Profile")
+    if (action === "user") navigation.navigate("Profile");
+    if (action === "next") {
+    }
+    if (action === "thickness")
+      setShowLineThicknessSlider((prev: boolean) => !prev);
     console.log("pressed " + action);
   };
 
   useEffect(() => {
-    if (action === "color") setColor(colorPickerOpen ? "#6b6b6b" : "#dadada");
-  }, [colorPickerOpen]);
+    const boolSetters: { [key: string]: any } = {
+      color: colorPickerOpen,
+      "draw under": drawBehind,
+      thickness: showLineThicknessSlider,
+    };
 
-  useEffect(() => {
-    if (action === "draw under") setColor(drawBehind ? "#6b6b6b" : "#dadada");
-  }, [drawBehind]);
+    setColor(boolSetters[action] ? "#6b6b6b" : "#dadada");
+  }, [colorPickerOpen, drawBehind, showLineThicknessSlider]);
 
   return (
     <Pressable onPress={handlePress}>

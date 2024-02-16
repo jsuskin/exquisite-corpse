@@ -51,7 +51,7 @@ const setStateArray = (arr, newPathObj, lastIdx, prepend = false) => {
 
 const pathSlice = createSlice({
   name: "path",
-  initialState: newSquareDefault,
+  initialState: { ...newSquareDefault, strokWidth: 0.1 },
   reducers: {
     addPath(state, action) {
       const [newPathObj, prepend] = action.payload;
@@ -107,7 +107,11 @@ const pathSlice = createSlice({
       });
       const pathId = state.orderedPathIDs[lastUndoIdx][1];
       // state.orderedPathIDs[lastUndoIdx] = ["add", pathId];
-      state.orderedPathIDs = [...state.orderedPathIDs.slice(0, lastUndoIdx), ["add", pathId], ...state.orderedPathIDs.slice(lastUndoIdx + 1)];
+      state.orderedPathIDs = [
+        ...state.orderedPathIDs.slice(0, lastUndoIdx),
+        ["add", pathId],
+        ...state.orderedPathIDs.slice(lastUndoIdx + 1),
+      ];
     },
     startNewSquare(state) {
       const lastBottomPaths = state.bottomPaths.slice(-1).pop();
@@ -131,4 +135,5 @@ const pathSlice = createSlice({
 
 export const { addPath, removePath, revertRmv, startNewSquare } =
   pathSlice.actions;
+
 export default pathSlice.reducer;

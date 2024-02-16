@@ -10,7 +10,8 @@ import {
   faXmark,
   faLayerGroup,
   faCircleUser,
-  faImage
+  faImage,
+  faFlagCheckered,
 } from "@fortawesome/free-solid-svg-icons";
 
 export const colors = [
@@ -37,5 +38,6 @@ export const icons = [
   ["undo", faArrowTurnDown],
   ["redo", faArrowTurnUp],
   ["clear", faRecycle],
-  ["complete", faCheck],
+  ["next", faCheck],
+  ["complete", faFlagCheckered],
 ];

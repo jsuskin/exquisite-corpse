@@ -1,6 +1,7 @@
 import { ParamListBase } from "@react-navigation/native";
 
 type BoolSetter = (prev: boolean) => void;
+type NumSetter = (prev: number) => void;
 
 // export type RootStackParamList = { Login: undefined; Profile: { userId: string }, Canvas: { canvasId: string } } & ParamListBase;
 export type RootStackParamList = {
@@ -17,6 +18,7 @@ export interface Sidebar {
   setColorPickerOpen: BoolSetter;
   drawBehind: boolean;
   setDrawBehind: BoolSetter;
+  setStrokeWidth: NumSetter;
 }
 
 export interface FormInput {
