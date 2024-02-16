@@ -2,13 +2,10 @@ import React, { useState } from "react";
 import { View } from "react-native";
 import CanvasFrame from "../../components/CanvasFrame";
 import Loading from "../../components/Loading";
-import ColorPicker from "../../components/Menu/ColorPicker";
-import FAB from "../../components/Menu/FAB";
 import Preview from "../../components/Preview";
 import Sidebar from "../../components/Sidebar";
 import { styles } from "../../styles/global";
 import { colors } from "../../util/constants";
-import LineThicknessSlider from "../../components/Menu/LineThicknessSlider";
 
 export default function () {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -37,19 +34,11 @@ export default function () {
           drawBehind,
           setDrawBehind,
           setStrokeWidth,
+          drawColor,
+          setDrawColor,
         }}
       />
-      <FAB
-        {...{
-          menuOpen,
-          widgetOpen: colorPickerOpen,
-          setColorPickerOpen,
-          setMenuOpen,
-        }}
-      />
-      <ColorPicker
-        {...{ menuOpen, colorPickerOpen, drawColor, setDrawColor }}
-      />
+      
     </View>
   );
 }

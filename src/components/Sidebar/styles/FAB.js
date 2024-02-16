@@ -3,7 +3,9 @@ import { StyleSheet } from "react-native";
 export const styles = StyleSheet.create({
   fab: {
     position: "relative",
-    alignSelf: "flex-end",
+    // alignSelf: "flex-end",
+    top: 300,
+    right: 50,
     zIndex: 999,
   },
   fabArm: {
