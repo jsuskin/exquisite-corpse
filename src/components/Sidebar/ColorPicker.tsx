@@ -14,12 +14,15 @@ export default function ({
         position: "absolute",
         height: 285,
         width: 275,
+        right: 75,
+        top: 175,
         paddingVertical: 10,
         paddingHorizontal: 20,
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
         transform: [{ translateX: menuOpen && colorPickerOpen ? 0 : 400 }],
+        zIndex: 999999,
       }}
     >
       <View style={{ justifyContent: "center", alignItems: "center" }}>

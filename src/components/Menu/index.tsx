@@ -13,7 +13,7 @@ import { styles as globalStyles } from "../../styles/global";
 
 import Colors from "./Colors";
 import { useSelector } from "react-redux";
-import ColorPicker from "./ColorPicker";
+import ColorPicker from "../Sidebar/ColorPicker";
 import LineThicknessSlider from "./LineThicknessSlider";
 import MenuButtons from "./MenuButtons";
 

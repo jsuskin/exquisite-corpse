@@ -1,31 +1,37 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { View } from "react-native";
 import { Sidebar } from "../../types";
 import { icons } from "../../util/constants";
 import Icon from "./Icon";
 import LineThicknessSlider from "./LineThicknessSlider";
 import { styles } from "./styles";
-import ColorPicker from "../../components/Menu/ColorPicker";
+import ColorPicker from "./ColorPicker";
 import FAB from "../../components/Sidebar/FAB";
+import { BoolSetter } from "../../types";
+import { useDispatch } from "react-redux";
+
+const boolSetter: BoolSetter = (prev: boolean) => !prev;
 
 export default function ({
   menuOpen,
-  setStrokeWidth,
-  colorPickerOpen,
+  setMenuOpen,
   drawColor,
   setDrawColor,
+  colorPickerOpen,
   setColorPickerOpen,
-  setMenuOpen,
-  ...props
+  drawBehind,
+  setDrawBehind,
+  setStrokeWidth,
+  showLineThicknessSlider,
+  setShowLineThicknessSlider,
 }: Sidebar) {
-  const [showLineThicknessSlider, setShowLineThicknessSlider] = useState(false);
-
+  const dispatch = useDispatch();
+  
   return (
     <View style={[styles.sidebar, { right: menuOpen ? 0 : -80 }]}>
       <FAB
         {...{
           menuOpen,
-          widgetOpen: colorPickerOpen,
           setColorPickerOpen,
           setMenuOpen,
         }}
@@ -35,9 +41,13 @@ export default function ({
           <Icon
             {...{
               icon,
+              hideSidebar: () => setMenuOpen(false),
+              setColorPickerOpen,
+              colorPickerOpen,
+              drawBehind,
+              setDrawBehind,
               showLineThicknessSlider,
               setShowLineThicknessSlider,
-              ...props,
             }}
           />
         </View>

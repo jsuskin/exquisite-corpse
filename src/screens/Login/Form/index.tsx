@@ -4,6 +4,7 @@ import {
   getAuth,
   onAuthStateChanged,
   signInWithEmailAndPassword,
+  updateProfile
 } from "firebase/auth";
 import React, { useState } from "react";
 import { ActivityIndicator, KeyboardAvoidingView, View } from "react-native";
@@ -14,12 +15,14 @@ import { styles } from "../../../styles/login";
 import { Button, FormInput } from "./FormElements";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../../../types";
+import { addDataToCollection } from "../../../util/helper-methods/firebase";
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
 const auth = getAuth(FIREBASE_APP);
 
 export default function () {
+  const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
@@ -29,10 +32,11 @@ export default function () {
   const dispatch = useDispatch();
 
   const resetForm = () => {
+    setUsername("");
     setEmail("");
     setPassword("");
     setLoading(false);
-  }
+  };
 
   const signIn = async () => {
     setLoading(true);
@@ -51,12 +55,15 @@ export default function () {
   const signUp = async () => {
     setLoading(true);
     try {
-      const response = await createUserWithEmailAndPassword(
+      const { user } = await createUserWithEmailAndPassword(
         auth,
         email,
         password
       );
-      console.log({ response });
+      await updateProfile(user, {displayName: username})
+      const { displayName, uid } = user;
+      addDataToCollection("users", { uid, displayName });
+      console.log("\n\n\nHELLO RIGHT FUCKING HERE\n\n\n", {});
     } catch (error: any) {
       console.error(error);
       alert("Sign up failed: " + error.message);
@@ -82,6 +89,11 @@ export default function () {
   return (
     <View style={styles.form}>
       <KeyboardAvoidingView behavior='padding'>
+        <FormInput
+          placeholder='Username'
+          value={username}
+          setState={setUsername}
+        />
         <FormInput placeholder='Email' value={email} setState={setEmail} />
         <FormInput
           placeholder='Password'

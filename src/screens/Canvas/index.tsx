@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { View } from "react-native";
 import CanvasFrame from "../../components/CanvasFrame";
 import Loading from "../../components/Loading";
@@ -15,8 +15,31 @@ export default function () {
   const [curSquare, setCurSquare] = useState(0);
   const [showPreview, setShowPreview] = useState(false);
   const [drawBehind, setDrawBehind] = useState(false);
+  const [showLineThicknessSlider, setShowLineThicknessSlider] = useState(false);
 
-  const canvasProps = { curSquare, drawColor, strokeWidth, drawBehind };
+  const canvasProps = {
+    curSquare,
+    drawColor,
+    strokeWidth,
+    drawBehind,
+    setColorPickerOpen,
+    setShowLineThicknessSlider,
+  };
+
+  useEffect(() => {
+    if (!menuOpen) {
+      setShowLineThicknessSlider(false);
+      setColorPickerOpen(false);
+    }
+  }, [menuOpen]);
+
+  useEffect(() => {
+    if (showLineThicknessSlider) setColorPickerOpen(false);
+  }, [showLineThicknessSlider]);
+
+  useEffect(() => {
+    if (colorPickerOpen) setShowLineThicknessSlider(false);
+  }, [colorPickerOpen]);
 
   return (
     <View style={styles.container}>
@@ -36,9 +59,10 @@ export default function () {
           setStrokeWidth,
           drawColor,
           setDrawColor,
+          showLineThicknessSlider,
+          setShowLineThicknessSlider,
         }}
       />
-      
     </View>
   );
 }

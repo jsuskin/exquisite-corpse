@@ -1,6 +1,6 @@
 import { ParamListBase } from "@react-navigation/native";
 
-type BoolSetter = (prev: boolean) => void;
+export type BoolSetter = (prev: boolean) => void;
 type NumSetter = (prev: number) => void;
 type StringSetter = (prev: string) => void;
 
@@ -22,10 +22,12 @@ export interface Sidebar {
   setStrokeWidth: NumSetter;
   drawColor: string;
   setDrawColor: StringSetter;
+  showLineThicknessSlider: boolean;
+  setShowLineThicknessSlider: BoolSetter;
 }
 
 export interface FormInput {
-  placeholder: "Email" | "Password";
+  placeholder: "Username" | "Email" | "Password" | string;
   value: string;
   setState: (text: string) => void;
   props?: any;
@@ -33,6 +35,6 @@ export interface FormInput {
 
 export interface Button {
   handlePress: () => void;
-  text: "Sign In" | "Sign Up" | "Sign Out" | "Save Changes" | "New Drawing";
+  text: "Sign In" | "Sign Up" | "Sign Out" | "Save Changes" | "New Drawing" | string;
   disabled?: boolean;
 }
