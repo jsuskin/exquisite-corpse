@@ -4,10 +4,7 @@ import { StatusBar } from "expo-status-bar";
 import React, { useEffect, useState } from "react";
 import { Provider } from "react-redux";
 import { store } from "./src/redux/store";
-import Canvas from "./src/screens/Canvas";
-import Login from "./src/screens/Login";
-import Profile from "./src/screens/Profile";
-import Settings from "./src/screens/Settings";
+import { Canvas, Login, Profile, Settings, Messages } from "./src/screens";
 import { getAuth, onAuthStateChanged, User } from "firebase/auth";
 import FIREBASE_APP from "./src/lib/firebase/config";
 import { useDispatch, useSelector } from "react-redux";
@@ -17,7 +14,7 @@ const auth = getAuth(FIREBASE_APP);
 
 const Stack = createNativeStackNavigator();
 
-export default function App() {  
+export default function App() {
   return (
     <Provider store={store}>
       <GestureHandlerRootView style={{ flex: 1 }}>
@@ -41,6 +38,11 @@ export default function App() {
             <Stack.Screen
               name='Canvas'
               component={Canvas}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name='Messages'
+              component={Messages}
               options={{ headerShown: false }}
             />
           </Stack.Navigator>

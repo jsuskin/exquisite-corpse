@@ -10,7 +10,7 @@ import { faXmark, faGear } from "@fortawesome/free-solid-svg-icons";
 import {
   addDataToCollection,
   readDataFromCollection,
-  getDocumentByDisplayName,
+  getUserByDisplayName,
 } from "../../util/helper-methods/firebase";
 import { Button } from "../Login/Form/FormElements";
 import { useNavigation } from "@react-navigation/native";
@@ -38,14 +38,14 @@ export default function ({ navigation }: Profile) {
 
   const handleOpenNewDrawingForm = () => {
     setNewDrawingFormOpen(true);
-    // getDocumentByDisplayName("users", newDrawingUsername);
+    // getUserByDisplayName("users", newDrawingUsername);
   };
 
   const handleSubmitNewDrawingRequest = async () => {
-    const recipientUser = await getDocumentByDisplayName(
-      "users",
+    const recipientUser = await getUserByDisplayName(
       newDrawingUsername
     );
+    
     if (recipientUser) {
       const response = await addDataToCollection("messages", {
         from: displayName,
@@ -77,7 +77,7 @@ export default function ({ navigation }: Profile) {
         ToastAndroid.SHORT,
         ToastAndroid.TOP
       );
-      
+
       setRequestSent(false)
     }
   }, [requestSent])
@@ -114,6 +114,9 @@ export default function ({ navigation }: Profile) {
       ) : (
         <Button handlePress={handleOpenNewDrawingForm} text='New Drawing' />
       )}
+      <Button handlePress={() => {
+        navigation.navigate("Messages")
+      }} text="View Messages" />
     </View>
   );
 }
