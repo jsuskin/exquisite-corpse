@@ -3,10 +3,10 @@ import {
   Text,
   View
 } from "react-native";
-import { styles } from "../../styles/login";
+import { styles } from "../styles/login";
 import { useDispatch, useSelector } from "react-redux";
 
-import Form from "./Form";
+import Form from "../components/Form";
 
 export default function () {
   return (

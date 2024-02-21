@@ -9,6 +9,28 @@ import {
 } from "firebase/firestore";
 import { FIREBASE_DB } from "../../lib/firebase/config";
 
+export const getMessage = async (id: string) => {
+  try {
+    const q = query(
+      collection(FIREBASE_DB, "messages"),
+      where("id", "==", id)
+    );
+    const querySnapshot = await getDocs(q);
+
+    if (querySnapshot.empty) {
+      console.log("No documents found matching the message id:", id);
+      return null; // Return null or throw an error if no document is found
+    } else {
+      const doc = querySnapshot.docs[0];
+      console.log("Document found:", doc.id, " => ", doc.data());
+      return doc.data();
+    }
+  } catch (error) {
+    console.error("Error getting document by message id: ", error);
+    throw error;
+  }
+}
+
 export const getUserByDisplayName = async (displayName: string) => {
   try {
     const q = query(
@@ -31,7 +53,10 @@ export const getUserByDisplayName = async (displayName: string) => {
   }
 };
 
-export const readDataFromCollection = async (collectionName: string, filterTerm?: string) => {
+export const readDataFromCollection = async (
+  collectionName: string,
+  filterTerm?: string
+) => {
   try {
     const querySnapshot = await getDocs(
       collection(FIREBASE_DB, collectionName)
@@ -47,8 +72,8 @@ export const readDataFromCollection = async (collectionName: string, filterTerm?
 
       // Check if filterTerm is provided and if the to.displayName matches it
       if (!filterTerm || (data.to && data.to.displayName === filterTerm)) {
-        // Add the data to the filtered array
-        dataArray.push(data);
+        // Add the data to the filtered array with the message id
+        dataArray.push({ id: doc.id, ...data });
       }
     });
 
@@ -59,7 +84,6 @@ export const readDataFromCollection = async (collectionName: string, filterTerm?
     throw error;
   }
 };
-
 
 export const addDataToCollection = async (
   collectionName: string,

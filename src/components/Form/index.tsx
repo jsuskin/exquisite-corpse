@@ -9,13 +9,13 @@ import {
 import React, { useState } from "react";
 import { ActivityIndicator, KeyboardAvoidingView, View } from "react-native";
 import { useDispatch } from "react-redux";
-import FIREBASE_APP from "../../../lib/firebase/config";
-import { setUser } from "../../../redux/reducers/userSlice";
-import { styles } from "../../../styles/login";
+import FIREBASE_APP from "../../lib/firebase/config";
+import { setUser } from "../../redux/reducers/userSlice";
+import { styles } from "../../styles/login";
 import { Button, FormInput } from "./FormElements";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { RootStackParamList } from "../../../types";
-import { addDataToCollection } from "../../../util/helper-methods/firebase";
+import { RootStackParamList } from "../../types";
+import { addDataToCollection } from "../../util/helper-methods/firebase";
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
 

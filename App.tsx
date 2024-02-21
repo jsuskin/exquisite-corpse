@@ -4,7 +4,14 @@ import { StatusBar } from "expo-status-bar";
 import React, { useEffect, useState } from "react";
 import { Provider } from "react-redux";
 import { store } from "./src/redux/store";
-import { Canvas, Login, Profile, Settings, Messages } from "./src/screens";
+import {
+  Canvas,
+  Login,
+  Profile,
+  Settings,
+  Messages,
+  Message,
+} from "./src/screens";
 import { getAuth, onAuthStateChanged, User } from "firebase/auth";
 import FIREBASE_APP from "./src/lib/firebase/config";
 import { useDispatch, useSelector } from "react-redux";
@@ -43,6 +50,11 @@ export default function App() {
             <Stack.Screen
               name='Messages'
               component={Messages}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name='Message'
+              component={Message}
               options={{ headerShown: false }}
             />
           </Stack.Navigator>

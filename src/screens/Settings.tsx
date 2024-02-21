@@ -2,10 +2,10 @@ import { User, getAuth, updateProfile } from "firebase/auth";
 import React, { useEffect } from "react";
 import { KeyboardAvoidingView, Text, TextInput, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import FIREBASE_APP from "../../lib/firebase/config";
-import { setDisplayName } from "../../redux/reducers/userSlice";
-import { styles } from "../../styles/login";
-import { Button } from "../Login/Form/FormElements";
+import FIREBASE_APP from "../lib/firebase/config";
+import { setDisplayName } from "../redux/reducers/userSlice";
+import { styles } from "../styles/login";
+import { Button } from "../components/Form/FormElements";
 
 const auth = getAuth(FIREBASE_APP);
 

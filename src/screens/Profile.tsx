@@ -2,21 +2,22 @@ import { Auth, getAuth, signOut, User } from "firebase/auth";
 import React, { useState, useEffect } from "react";
 import { Pressable, Text, View, ToastAndroid } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
-import { setDisplayName } from "../../redux/reducers/userSlice";
-import FIREBASE_APP from "../../lib/firebase/config";
-import { styles } from "../../styles/profile";
+import { setDisplayName } from "../redux/reducers/userSlice";
+import FIREBASE_APP from "../lib/firebase/config";
+import { styles } from "../styles/profile";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faXmark, faGear } from "@fortawesome/free-solid-svg-icons";
 import {
   addDataToCollection,
   readDataFromCollection,
   getUserByDisplayName,
-} from "../../util/helper-methods/firebase";
-import { Button } from "../Login/Form/FormElements";
+} from "../util/helper-methods/firebase";
+import { Button } from "../components/Form/FormElements";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { RootStackParamList } from "../../types";
-import { FormInput } from "../Login/Form/FormElements";
+import { RootStackParamList } from "../types";
+import { FormInput } from "../components/Form/FormElements";
+import { serverTimestamp } from "firebase/firestore";
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
 type Profile = { navigation: NavigationProp };
@@ -36,34 +37,27 @@ export default function ({ navigation }: Profile) {
     dispatch(setDisplayName(displayName));
   };
 
-  const handleOpenNewDrawingForm = () => {
-    setNewDrawingFormOpen(true);
-    // getUserByDisplayName("users", newDrawingUsername);
-  };
+  const handleOpenNewDrawingForm = () => setNewDrawingFormOpen(true);
 
   const handleSubmitNewDrawingRequest = async () => {
-    const recipientUser = await getUserByDisplayName(
-      newDrawingUsername
-    );
-    
+    const recipientUser = await getUserByDisplayName(newDrawingUsername);
+
     if (recipientUser) {
       const response = await addDataToCollection("messages", {
         from: displayName,
         to: recipientUser,
         message: `Accept new drawing request from ${displayName}?`,
         status: "unread",
+        createdAt: serverTimestamp(),
       });
-      
-      if(response) {
+
+      if (response) {
         setRequestSent(true);
         setNewDrawingUsername("");
         setNewDrawingFormOpen(false);
-        navigation.navigate('Canvas');
+        navigation.navigate("Canvas");
       }
     }
-    // const users = readDataFromCollection("users");
-    // if
-    // addDataToCollection("drawings", { startedBy: displayName });
   };
 
   useEffect(() => {
@@ -71,16 +65,16 @@ export default function ({ navigation }: Profile) {
   }, [user.displayName]);
 
   useEffect(() => {
-    if(requestSent) {
+    if (requestSent) {
       ToastAndroid.showWithGravity(
         "Request Sent!",
         ToastAndroid.SHORT,
         ToastAndroid.TOP
       );
 
-      setRequestSent(false)
+      setRequestSent(false);
     }
-  }, [requestSent])
+  }, [requestSent]);
 
   async function signOutUser(auth: Auth) {
     try {
@@ -94,11 +88,14 @@ export default function ({ navigation }: Profile) {
 
   return (
     <View style={styles.profile}>
-      <IconButton toRoute='Canvas' styleKey='closeButton' icon={faXmark} />
+      <IconButton
+        handlePress={() => navigation.navigate("Canvas")}
+        styleKey='closeButton'
+        icon={faXmark}
+      />
       <Text>{`Signed in as ${displayName ? displayName : email}`}</Text>
-      <IconButton toRoute='Settings' styleKey='settingsButton' icon={faGear} />
+      <IconButton handlePress={() => navigation.navigate("Settings")} styleKey='settingsButton' icon={faGear} />
       <Button handlePress={() => signOutUser(auth)} text='Sign Out' />
-
       {newDrawingFormOpen ? (
         <>
           <FormInput
@@ -114,19 +111,18 @@ export default function ({ navigation }: Profile) {
       ) : (
         <Button handlePress={handleOpenNewDrawingForm} text='New Drawing' />
       )}
-      <Button handlePress={() => {
-        navigation.navigate("Messages")
-      }} text="View Messages" />
+      <Button
+        handlePress={() => navigation.navigate("Messages")}
+        text='View Messages'
+      />
     </View>
   );
 }
 
-const IconButton = ({ toRoute, styleKey, icon }: any) => {
-  const navigation: NavigationProp = useNavigation();
-
+const IconButton = ({ handlePress, styleKey, icon }: any) => {
   return (
     <Pressable
-      onPress={() => navigation.navigate(toRoute)}
+      onPress={handlePress}
       style={(styles as any)[styleKey]}
     >
       <FontAwesomeIcon icon={icon} color='#dadada' size={50} />

@@ -10,6 +10,8 @@ export type RootStackParamList = {
   Profile: any;
   Canvas: any;
   Settings: any;
+  Messages: any;
+  Message: any;
 } & ParamListBase;
 
 export interface Sidebar {

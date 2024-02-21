@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { View } from "react-native";
-import CanvasFrame from "../../components/CanvasFrame";
-import Loading from "../../components/Loading";
-import Preview from "../../components/Preview";
-import Sidebar from "../../components/Sidebar";
-import { styles } from "../../styles/global";
-import { colors } from "../../util/constants";
+import CanvasFrame from "../components/CanvasFrame";
+import Loading from "../components/Loading";
+import Preview from "../components/Preview";
+import Sidebar from "../components/Sidebar";
+import { styles } from "../styles/global";
+import { colors } from "../util/constants";
 
 export default function () {
   const [menuOpen, setMenuOpen] = useState(false);
